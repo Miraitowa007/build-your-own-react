@@ -20,9 +20,6 @@ const render = (elem, container) => {
    props: {
      children: [elem]
    },
-   sibiling: null,
-   child: null,
-   parent: null,
    alternate: currentRoot
  }
  nextUnitOfWork = wipRoot;
@@ -110,14 +107,14 @@ const commitWork = (fiber) => {
   }
 
   commitWork(fiber.child);
-  commitWork(fiber.sibling);
+  commitWork(fiber.sibiling);
 }
 
 // 优化newFiber
  const reconcileChildren = (wipFiber, elements) => {
   let index = 0;
   let oldFiber = wipFiber.alternate && wipFiber.alternate.child;
-  let preSibling = null; 
+  let presibiling = null; 
   while(index < elements.length || oldFiber) {
     const element = elements[index];
     const sameType = element && oldFiber && element.type === oldFiber.type; 
@@ -154,13 +151,13 @@ const commitWork = (fiber) => {
     if(oldFiber) {
       oldFiber = oldFiber.sibiling;
     }
-    // 如果是children的第一个，就是唯一儿子，同时将preSibling指向当前newFiber
+    // 如果是children的第一个，就是唯一儿子，同时将presibiling指向当前newFiber
     if(index === 0) {
       wipFiber.child = newFiber; 
     } else {
-      preSibling.sibiling = newFiber;
+      presibiling.sibiling = newFiber;
     }
-    preSibling = newFiber;
+    presibiling = newFiber;
     index++;
   }
   console.log(163, wipFiber);
@@ -199,7 +196,6 @@ const updateDom = (dom, prevProps, nextProps) => {
   .forEach(key => {
     dom[key] = nextProps[key];
   })
-  // 更新
 }
 
 // 处理非函数式组件

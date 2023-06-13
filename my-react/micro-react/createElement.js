@@ -8,7 +8,6 @@ const createElement = (type, props, ...children) => {
     }
   }
 }
-
 const createTextElement= (text) => {
   return {
     type: 'TEXT_ELEMENT',
